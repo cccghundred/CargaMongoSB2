@@ -1,0 +1,1 @@
+PersonalizacionQAS-shard-0/personalizacionqas-shard-00-00-xfhrx.mongodb.net:27017,personalizacionqas-shard-00-01-xfhrx.mongodb.net:27017,personalizacionqas-shard-00-02-xfhrx.mongodb.net:27017 --ssl --username <Usuario> --password <Contraseña> --authenticationDatabase admin

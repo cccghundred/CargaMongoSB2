@@ -1,0 +1,1 @@
+-U <Usuario> -P <Contraseña> -S <Servidor>
