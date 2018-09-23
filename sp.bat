@@ -10,7 +10,6 @@ for /F "tokens=*" %%a in (%1) do (
     )
 
 ECHO Conexion: %connSQL%
-REM sqlcmd %connSQL% -d %2 -i scripts\ejemplo.sql
 sqlcmd %connSQL% -d %2 -i scripts\usp_SBMicroservicios_Componente.sql
 sqlcmd %connSQL% -d %2 -i scripts\usp_SBMicroservicios_TipoEstrategia.sql
 sqlcmd %connSQL% -d %2 -i scripts\usp_SBMicroservicios_ProductoFaltanteZona.sql

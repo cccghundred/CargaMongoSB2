@@ -10,6 +10,6 @@ colls.forEach(function(collName) {
     
     indexes.forEach(function(idx){
 		print("Creando índice: " + idx.name);
-        ncoll.createIndex(idx.key);
+        ncoll.createIndex(idx.key, { name: idx.name });
     })
 })
