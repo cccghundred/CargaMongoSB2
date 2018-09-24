@@ -59,7 +59,7 @@ En el segundo archivo, se colocarán las diferentes de palancas de ofertas perso
 ![Palancas](doc/imgs/palancas.png)
 
 ## Ejecución
-Si se realizará una carga nueva desde cero a MongoDB, primero debe crear la base de datos y las colecciones con sus respectivos índices, para esto puede utilizar los comandos que se encuentran en el script __CrearColeccionesMongoDB.js__, ubicado en la carpeta scripts. Por otro lado, si ya existen datos migrados en MongoDB y lo que se quiere es realizar una nueva carga, debe ejectur el script __RecrearBaseDatosMongoDB.js__. Con esto, se eliminarán cada una de las colecciones y se volverán a crear con los índices que tenían. 
+Si se realizará una carga nueva desde cero a MongoDB, primero debe crear la base de datos y las colecciones con sus respectivos índices, para esto puede utilizar los comandos que se encuentran en el script [CrearColeccionesMongoDB.js](/scripts/CrearColeccionesMongoDB.js), ubicado en la carpeta scripts. Por otro lado, si ya existen datos migrados en MongoDB y lo que se quiere es realizar una nueva carga, debe ejectur el script [RecrearBaseDatosMongoDB.js](/scripts/RecrearBaseDatosMongoDB.js). Con esto, se eliminarán cada una de las colecciones y se volverán a crear con los índices que tenían. 
 
 Posteriormente, seguir los pasos que se muestran a continuación:
 
