@@ -32,7 +32,7 @@ Verificar que en la carpeta donde está instalado MongoDB se encuentre el archiv
 ```
 C:\Program Files\MongoDB\Server\4.0\bin
 ```
-![RutaMongoImport](doc/imgs/RutaMongoImport.png)
+![rutaMongoImport](doc/imgs/rutaMongoImport.png)
 
 Adicionalmente, se debe comprobar si la ruta está registrada en las variables de entorno del sistema operativo. De no estarlo, ejecutar una consola con privilegios de administrador e ingresar el siguiente comando:
 
@@ -65,7 +65,7 @@ Posteriormente, seguir los pasos que se muestran a continuación:
 
 1. Ir a la ruta del proyecto y ejecutar el archivo __init.cmd__
 
-![Init](doc/imgs/Init.png)
+![Init](doc/imgs/init.png)
 
 2. Se abrirá la consola y se solicitará que seleccione cual de las cadenas de conexión SQL Server es la que se empleará para obtener los datos de origen.
 
