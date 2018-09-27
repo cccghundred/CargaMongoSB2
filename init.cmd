@@ -62,6 +62,11 @@ ECHO.%time:~0,8% Inicio: carga de tipo estrategia
 start /I /MIN /WAIT batchs\import\TipoEstrategia.cmd %archivoSQL%,%archivoMongo%,%fuente%,%destino%
 ECHO.%time:~0,8% Fin: carga de tipo estrategia
 ECHO ===================================================================================
+REM Carga de personalizacion
+ECHO.%time:~0,8% Inicio: carga de personalizacion
+start /I /MIN /WAIT batchs\import\Personalizacion.cmd %archivoSQL%,%archivoMongo%,%fuente%,%destino%
+ECHO.%time:~0,8% Fin: carga de personalizacion
+ECHO ===================================================================================
 REM Carga de datos OfertaPersonalizada
 ECHO.%time:~0,8% Inicio: carga de ofertas personalizadas 
 for /F "tokens=*" %%a in (input\campanias.txt) do (

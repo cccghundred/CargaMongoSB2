@@ -6,45 +6,42 @@
     Target Database Engine Edition : Microsoft SQL Server Enterprise Edition
     Target Database Engine Type : Standalone SQL Server
 */
+
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 /*
 ----------------------------------------------------------------------------------------------------------------------
-PROP?SITO            | Generar informaci�n de producto comercial para exportar a Mongo
+PROP╙SITO            | Generar informaci≤n de producto comercial para exportar a Mongo
 ----------------------------------------------------------------------------------------------------------------------
-PAR?METROS DE ENTRADA| 
+PAR┴METROS DE ENTRADA| 
 ----------------------------------------------------------------------------------------------------------------------
-PAR?METROS DE SALIDA | NO APLICA
+PAR┴METROS DE SALIDA | NO APLICA
 ----------------------------------------------------------------------------------------------------------------------
-CREADO POR           | C�sar C�rdenas
-FECHA CREACI?N       | 13/06/2018
+CREADO POR           | CΘsar Cßrdenas
+FECHA CREACI╙N       | 13/06/2018
 ----------------------------------------------------------------------------------------------------------------------
 HISTORIAL DE CAMBIOS | FECHA      RESPONSABLE         MOTIVO
                      | ---------- ------------------- ----------------------------------------------------------------
-                     | 13/06/2018 C�sar C�rdenas       Creaci�n de script
-                     | 06/07/2018 Yanir� Romero        Precarga Tonos
-					 | 10/07/2018 Yanir� Romero        Precarga Niveles
-					 | 01/08/2018 Yanir� Romero        Indicador Digitable
+                     | 13/06/2018 CΘsar Cßrdenas       Creaci≤n de script
+                     | 06/07/2018 YanirΘ Romero        Precarga Tonos
+					 | 10/07/2018 YanirΘ Romero        Precarga Niveles
+					 | 01/08/2018 YanirΘ Romero        Indicador Digitable
+					 | 21/09/2018 Mijael Palomino      Actualizaci≤n de precio por EstrategiaIdSicc
 ----------------------------------------------------------------------------------------------------------------------
 PRUEBA:               
 	EXEC usp_SBMicroservicios_ProductoComercial
 
 */
-IF OBJECT_ID('dbo.usp_SBMicroservicios_ProductoComercial','P') IS NOT NULL
+IF OBJECT_ID('dbo.usp_SBMicroservicios_ProductoComercial', 'P') IS NOT NULL
 	DROP PROCEDURE dbo.usp_SBMicroservicios_ProductoComercial
 GO
-
-CREATE PROCEDURE [dbo].[usp_SBMicroservicios_ProductoComercial] 
+	CREATE PROCEDURE [dbo].[usp_SBMicroservicios_ProductoComercial] 
 AS
-
-BEGIN
+BEGIN	
 	SET NOCOUNT ON;
-
-	/**** 1. Creando Temporales - Ini ****/
-	/* #ProductoTemporal */  
-	 DECLARE @ProductoTemporal TABLE (  
+	 CREATE TABLE #ProductoTemporal (  
 	 CampaniaId   int  
 	 ,CodigoCampania int
 	 ,CUV    varchar(50)  
@@ -68,12 +65,12 @@ BEGIN
 	 ,ImagenURL varchar(150)
 	 ,Niveles varchar(200)
 	 ) 
-	 INSERT INTO @ProductoTemporal
+	 INSERT INTO #ProductoTemporal
 	 select 
 		p.CampaniaID,
 		p.AnoCampania,
 		p.CUV,
-		REPLACE(COALESCE(mci.DescripcionComercial,pd.Descripcion,p.Descripcion),'"',char(39)) as DescripcionCUV, 
+		REPLACE(COALESCE(mci.DescripcionComercial, pd.Descripcion,p.Descripcion),'"',char(39)) as DescripcionCUV, 
 		p.CodigoProducto,
 		p.PrecioUnitario,
 		p.IndicadorPreUni,
@@ -99,7 +96,6 @@ BEGIN
 		dbo.MatrizComercial mc WITH (NOLOCK) on p.CodigoProducto = mc.CodigoSAP LEFT JOIN 
 		dbo.MatrizComercialImagen mci WITH (NOLOCK) on mci.IdMatrizComercial = mc.IdMatrizComercial AND mci.NemoTecnico IS NOT NULL 
 
-	 /*#ProductoComercial*/  
 	 CREATE TABLE #ProductoComercial(  
 	 CampaniaID   int  
 	 ,CUV    varchar(50)  
@@ -129,8 +125,6 @@ BEGIN
 	 ,PC.NumeroGrupo  
 	 ,PC.NumeroNivel  
 	 FROM ods.ProductoComercial PC  
-
-	 /* #ProductoNivel */  
 	CREATE TABLE #ProductoNivel(  
 	CUV   varchar(5)  
 	,Nivel  int  
@@ -149,10 +143,6 @@ BEGIN
 	PC.CUV  
 	,PN.FactorCuadre  
 	,PN.PrecioUnitario 
-	 /**** 1. Creando Temporales - Fin ****/  
-
-	 /**** 2. C�lculo de Ganancia - Ini ****/  
-	 /* #ProductoTemporal_2001 */  
 	 CREATE TABLE #ProductoTemporal_2001(  
 	 CampaniaID   int  
 	 ,CUV    varchar(50)  
@@ -167,8 +157,6 @@ BEGIN
 	 FROM #ProductoComercial PC  
 	 WHERE (PC.EstrategiaIdSicc = 2001 OR PC.EstrategiaIdSicc IS NULL)
 	   AND PC.FactorRepeticion >= 1  
-  
-	 /* #ProductoTemporal_2002 */  
 	 CREATE TABLE #ProductoTemporal_2002(  
 	 CodigoOferta	int
 	,CampaniaId		int 
@@ -185,8 +173,6 @@ BEGIN
 		WHERE PC.EstrategiaIdSicc = 2002
 		GROUP BY PC.CampaniaId, PC.CodigoOferta
 		ORDER BY PC.CampaniaId, PC.CodigoOferta  
-
-	 /* #ProductoTemporal_2003 */  
 	 CREATE TABLE #ProductoTemporal_2003(  
 	 CodigoOferta	int
 			,CampaniaId		int 
@@ -210,45 +196,45 @@ BEGIN
 	 SET  
 	  PT.PrecioPublico = PT_GAN.PrecioPublico  
 	 ,PT.Ganancia = PT_GAN.Ganancia  
-	 FROM @ProductoTemporal PT
+	 FROM #ProductoTemporal PT
 	  JOIN #ProductoTemporal_2001   PT_GAN  
 	   ON PT_GAN.CampaniaID = PT.CampaniaID 
-	   AND PT_GAN.CUV  COLLATE DATABASE_DEFAULT = PT.CUV  COLLATE DATABASE_DEFAULT
+	   AND PT_GAN.CUV = PT.CUV 
+	   AND EstrategiaIdSicc = 2001
 
 	UPDATE PT 
 	 SET  
 	  PT.PrecioPublico = PT_GAN.PrecioPublico  
 	 ,PT.Ganancia = PT_GAN.Ganancia  
-	 FROM @ProductoTemporal PT
+	 FROM #ProductoTemporal PT
 	  JOIN #ProductoTemporal_2002   PT_GAN  
 	   ON PT_GAN.CampaniaID = PT.CampaniaID 
 	   AND PT_GAN.CodigoOferta = PT.CodigoOferta 
+	   AND EstrategiaIdSicc = 2002
 
 	UPDATE PT 
 	 SET  
 	  PT.PrecioPublico = PT_GAN.PrecioPublico  
 	 ,PT.Ganancia = PT_GAN.Ganancia  
-	 FROM @ProductoTemporal PT
+	 FROM #ProductoTemporal PT
 	  JOIN #ProductoTemporal_2003  PT_GAN  
 	   ON PT_GAN.CampaniaID = PT.CampaniaID 
 	   AND PT_GAN.CodigoOferta = PT.CodigoOferta 
+	   AND EstrategiaIdSicc = 2003
 
 	 UPDATE PT  
 	 SET PT.Ganancia = 0  
-	 FROM @ProductoTemporal PT
+	 FROM #ProductoTemporal PT
 	 WHERE PT.Ganancia < 0  
   
 	 UPDATE PT  
 	 SET PT.PrecioOferta = PT.PrecioPublico  
-	 FROM @ProductoTemporal PT 
+	 FROM #ProductoTemporal PT 
 	 WHERE PT.PrecioPublico > 0  
 	 UPDATE PT  
 	 SET PT.PrecioTachado = PT.PrecioPublico + PT.Ganancia  
-	 FROM @ProductoTemporal PT 
+	 FROM #ProductoTemporal PT 
 	 WHERE PT.Ganancia > 0  
-	 /**** 2. C�lculo de Ganancia - Fin ****/ 
-
-	 /**** 3. C�lculo de Niveles - Ini ****/  
 	UPDATE PN  
 	SET Precio = PN.Nivel * PN.Precio  
 	FROM #ProductoNivel PN  
@@ -274,14 +260,11 @@ BEGIN
 	UPDATE PT  
 	SET  
 	PT.Niveles = PNS.Niveles  
-	FROM @ProductoTemporal PT  
+	FROM #ProductoTemporal PT  
 	JOIN #ProductoNiveles PNS  
-	ON PT.CUV COLLATE DATABASE_DEFAULT = PNS.CUV COLLATE DATABASE_DEFAULT 
+	ON PT.CUV = PNS.CUV  
 
-	select * from @ProductoTemporal
-	/**** 3. C�lculo de Niveles - Fin ****/ 
-
-     /**** 4. Limpiando Temporales - Ini ****/  
+	select * from #ProductoTemporal
 	 DROP TABLE #ProductoComercial  
 	 DROP TABLE #ProductoNivel  
 	 DROP TABLE #ProductoNiveles 
@@ -289,6 +272,5 @@ BEGIN
 	 DROP TABLE #ProductoTemporal_2001  
 	 DROP TABLE #ProductoTemporal_2002  
 	 DROP TABLE #ProductoTemporal_2003  
-	 /**** 4. Limpiando Temporales - Fin ****/  
-	
+	 DROP TABLE #ProductoTemporal
 END
