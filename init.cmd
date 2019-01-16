@@ -34,37 +34,37 @@ SET /P destino=Ingrese el nombre de la base de datos MongoDB:
 ECHO ===================================================================================
 ECHO.%time:~0,8% Inicia proceso de carga de datos de %fuente% a %destino% 
 REM Actualizaci¢n de SPs
-start /I /MIN /WAIT sp.bat %archivoSQL%,%fuente%
+REM start /I /MIN /WAIT sp.bat %archivoSQL%,%fuente%
 ECHO.%time:~0,8% Se actualizaron los procedimientos almacenados en %fuente%
 ECHO ===================================================================================
 REM Carga de datos ProductoComercial
 ECHO.%time:~0,8% Inicio: carga de producto comercial
-start /I /MIN /WAIT batchs\import\ProductoComercial.cmd %archivoSQL%,%archivoMongo%,%fuente%,%destino%
+REM start /I /MIN /WAIT batchs\import\ProductoComercial.cmd %archivoSQL%,%archivoMongo%,%fuente%,%destino%
 ECHO.%time:~0,8% Fin: carga de producto comercial
 ECHO ===================================================================================
 REM Carga de datos ProductFaltanteZona
 ECHO.%time:~0,8% Inicio: carga de producto faltante zona
-start /I /MIN /WAIT batchs\import\ProductoFaltanteZona.cmd %archivoSQL%,%archivoMongo%,%fuente%,%destino%
+REM start /I /MIN /WAIT batchs\import\ProductoFaltanteZona.cmd %archivoSQL%,%archivoMongo%,%fuente%,%destino%
 ECHO.%time:~0,8% Fin: carga de producto faltante
 ECHO ===================================================================================
 REM Carga de datos OfertaPersonalizadaCuv
 ECHO.%time:~0,8% Inicio: carga de oferta personalizada cuv
-start /I /MIN /WAIT batchs\import\OfertaPersonalizadaCuv.cmd %archivoSQL%,%archivoMongo%,%fuente%,%destino%
+REM start /I /MIN /WAIT batchs\import\OfertaPersonalizadaCuv.cmd %archivoSQL%,%archivoMongo%,%fuente%,%destino%
 ECHO.%time:~0,8% Fin: carga de oferta personalizada cuv
 ECHO ===================================================================================
 REM Carga de datos Componente
 ECHO.%time:~0,8% Inicio: carga de componente
-start /I /MIN /WAIT batchs\import\componente.cmd %archivoSQL%,%archivoMongo%,%fuente%,%destino%
+REM start /I /MIN /WAIT batchs\import\componente.cmd %archivoSQL%,%archivoMongo%,%fuente%,%destino%
 ECHO.%time:~0,8% Fin: carga de componente
 ECHO ===================================================================================
 REM Carga de datos TipoEstrategia
 ECHO.%time:~0,8% Inicio: carga de tipo estrategia
-start /I /MIN /WAIT batchs\import\TipoEstrategia.cmd %archivoSQL%,%archivoMongo%,%fuente%,%destino%
+REM start /I /MIN /WAIT batchs\import\TipoEstrategia.cmd %archivoSQL%,%archivoMongo%,%fuente%,%destino%
 ECHO.%time:~0,8% Fin: carga de tipo estrategia
 ECHO ===================================================================================
 REM Carga de personalizacion
 ECHO.%time:~0,8% Inicio: carga de personalizacion
-start /I /MIN /WAIT batchs\import\Personalizacion.cmd %archivoSQL%,%archivoMongo%,%fuente%,%destino%
+REM start /I /MIN /WAIT batchs\import\Personalizacion.cmd %archivoSQL%,%archivoMongo%,%fuente%,%destino%
 ECHO.%time:~0,8% Fin: carga de personalizacion
 ECHO ===================================================================================
 REM Carga de datos OfertaPersonalizada

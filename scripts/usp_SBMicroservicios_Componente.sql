@@ -7,6 +7,7 @@
     Target Database Engine Type : Standalone SQL Server
 */
 
+GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -26,6 +27,8 @@ HISTORIAL DE CAMBIOS | FECHA      RESPONSABLE         MOTIVO
                      | ---------- ------------------- ----------------------------------------------------------------
                      | 03/07/2018 Yaniré Romero        Creación de script
                      | 24/08/2018 César Cárdenas	   Adecuación para evitar duplicados 
+					 | 05/10/2018 César Cárdenas	   Se agrega nombre marca 
+					 | 16/10/2018 Mijael Palomino      Se agregó campos Categoria, GrupoArticulo y Linea 
 ----------------------------------------------------------------------------------------------------------------------
 PRUEBA:               
 	EXEC usp_SBMicroservicios_Componente
@@ -77,9 +80,19 @@ BEGIN
 		,CAST(ISNULL(PCT.CodigoFactorCuadre,1) AS INT) AS FactorCuadre
 		,PCT.DESCRIPCION AS NombreProducto
 		,PCT.MarcaID AS IdMarca
+		,M.Descripcion AS NombreMarca
+		,fb.Nombre
+		,ga.DescripcionCorta
+		,sl.DescripcionLarga
 		FROM cte_ProductoComercial EPT
 		INNER JOIN  ods.ProductoComercial PCT ON EPT.CAMPANIAID = PCT.AnoCampania 
 			AND EPT.CUV = PCT.CUV
 			AND EPT.CODIGO_ESTRATEGIA = PCT.EstrategiaIDSicc
+		INNER JOIN dbo.Marca M ON M.MarcaID = PCT.MarcaID
+		LEFT JOIN ods.SAP_PRODUCTO sp WITH (NOLOCK) ON PCT.CodigoProducto = sp.CodigoSap
+		LEFT JOIN ods.SAP_LINEA sl WITH (NOLOCK) on sp.CodigoLinea = sl.Codigo
+		LEFT JOIN ods.SAP_GRUPOARTICULO ga WITH (NOLOCK) on sp.CodigoGrupoArticuloSAP = ga.Codigo
+		LEFT JOIN dbo.FiltroBuscadorGrupoArticulo fbga WITH (NOLOCK) on ga.Codigo = fbga.CodigoGrupoArticulo
+		LEFT JOIN dbo.FiltroBuscador fb WITH (NOLOCK) on fbga.CodigoFiltroBuscador = fb.Codigo
 END
 GO

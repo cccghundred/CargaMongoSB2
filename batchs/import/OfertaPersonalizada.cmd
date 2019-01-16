@@ -1,4 +1,4 @@
-@ECHO OFF
+﻿@ECHO OFF
 IF "%1" == "" goto Fin
 IF "%2" == "" goto Fin
 IF "%3" == "" goto Fin
@@ -18,7 +18,7 @@ for /F "tokens=*" %%a in (%2) do (
 
 bcp "exec usp_SBMicroservicios_OfertaPersonalizada '%5', '%6'" queryout csv/OfertasPersonalizadas%6%5.csv -c -C 65001 -b 10000 -t"\t" %connSQL% -d %3
 
-mongoimport -v --host %connMongoDB% --db %4 --collection OfertaPersonalizada --type tsv --columnsHaveTypes --fields "TipoPersonalizacion.string(),CodConsultora.string(),AnioCampanaVenta.string(),CUV.string(),CUC.string(),CodSap.string(),ZonasPortal.string(),DiaInicio.int32(),DiaFin.int32(),Orden.int32(),CodVinculo.int32(),PPU.decimal(),LimUnidades.int32(),FlagUltMinuto.boolean(),CodMandanteOF.string(),FlagRevista.int32()" --file csv/OfertasPersonalizadas%6%5.csv --numInsertionWorkers 8 --ignoreBlanks
+mongoimport -v --host %connMongoDB% --db %4 --collection OfertaPersonalizada --type tsv --columnsHaveTypes --fields "TipoPersonalizacion.string(),CodConsultora.string(),AnioCampanaVenta.string(),CUV.string(),CUC.string(),CodSap.string(),ZonasPortal.string(),DiaInicio.int32(),DiaFin.int32(),Orden.int32(),CodVinculo.int32(),PPU.decimal(),LimUnidades.int32(),FlagUltMinuto.boolean(),FlagRevista.int32(),MaterialGanancia.int32()" --file csv/OfertasPersonalizadas%6%5.csv --numInsertionWorkers 8 --ignoreBlanks
 exit
 
 :Fin

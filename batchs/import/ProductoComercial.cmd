@@ -18,10 +18,11 @@ ECHO Conexion SQL: %connSQL%
 ECHO Conexion Mongo: %connMongoDB%
 bcp "exec usp_SBMicroservicios_ProductoComercial" queryout csv/ProductoComercial.csv -c -C 65001 -t"\t" %connSQL% -d %3
 
-mongoimport -v --host %connMongoDB% --db %4 --collection ProductoComercial --type tsv --columnsHaveTypes --fields "CampaniaId.int32(),CodigoCampania.string(),CUV.string(),DescripcionCUV.string(),CodigoProducto.string(),PrecioUnitario.double(),IndicadorPreUni.double(),PrecioPublico.double(),PrecioOferta.double(),PrecioTachado.double(),Ganancia.double(),IndicadorMontoMinimo.boolean(),IndicadorDigitable.boolean(),EstrategiaIdSicc.int32(),CodigoOferta.int32(),NumeroGrupo.int32(),NumeroNivel.int32(),MarcaId.int32(),MarcaDescripcion.string(),MatrizComercialId.int32(),ImagenURL.string(),Niveles.string()" --file csv/ProductoComercial.csv --numInsertionWorkers 4 --ignoreBlanks
+mongoimport -v --host %connMongoDB% --db %4 --collection ProductoComercial --type tsv --columnsHaveTypes --fields "CampaniaId.int32(),CodigoCampania.string(),CUV.string(),DescripcionCUV.string(),CodigoProducto.string(),PrecioUnitario.double(),IndicadorPreUni.double(),PrecioPublico.double(),PrecioOferta.double(),PrecioTachado.double(),Ganancia.double(),IndicadorMontoMinimo.boolean(),IndicadorDigitable.boolean(),EstrategiaIdSicc.int32(),CodigoOferta.int32(),NumeroGrupo.int32(),NumeroNivel.int32(),MarcaId.int32(),MarcaDescripcion.string(),MatrizComercialId.int32(),ImagenURL.string(),Niveles.string(),CodigoCatalogo.string(),Categoria.string(),GrupoArticulo.string(),Linea.string(),PrecioCatalogo.double(),PrecioValorizado.double()" --file csv/ProductoComercial.csv --numInsertionWorkers 4 --ignoreBlanks
+
 exit
 
 :Fin
-ECHO Error los par√°metros enviados
+ECHO Error los par†metros enviados
 pause
 exit

@@ -1,4 +1,4 @@
-/*    ==Scripting Parameters==
+﻿/*    ==Scripting Parameters==
 
     Source Server Version : SQL Server 2012 (11.0.6020)
     Source Database Engine Edition : Microsoft SQL Server Enterprise Edition
@@ -57,9 +57,9 @@ BEGIN
 	CodVinculo, 
 	PPU, 
 	LimUnidades, 
-	FlagUltMinuto, 
-	CodMandanteOF,
-	FlagRevista
+	FlagUltMinuto,
+	FlagRevista,
+	MaterialGanancia
 	FROM ods.OfertasPersonalizadas WITH (NOLOCK)
 	WHERE AnioCampanaVenta = @vAnioCampania AND TipoPersonalizacion = @vTipoPersonalizacion;
 END
