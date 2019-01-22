@@ -13,26 +13,34 @@ IF %2 == 2 SET archivoMongo=conn\mongo\conexionQAS.txt
 
 SET fuente=%3
 SET destino=%4
-SET limpiar="%5"
+SET limpiar=%5
 
 ECHO %fuente%
 ECHO %destino%
 ECHO %archivoSQL%
 ECHO %archivoMongo%
+ECHO Limpiar = "%limpiar%"
 
-
+ECHO.%time:~0,8% Inicia proceso de carga de datos de %fuente% a %destino%
 ECHO ===================================================================================
-ECHO.%time:~0,8% Inicia proceso de carga de datos de %fuente% a %destino% 
-REM Actualizaci¢n de SPs
-start /I /MIN /WAIT sp.bat %archivoSQL%,%fuente%
-ECHO.%time:~0,8% Se actualizaron los procedimientos almacenados en %fuente%
-IF %limpiar% == "1" (
-    ECHO ===================================================================================
-    REM Limpiar bibliotema mongoDB
-    ECHO.%time:~0,8% Inicio: Limpiar biblioteca mongoDB
+IF "%limpiar%"=="1" (
+    ECHO Si est s seguro que quieres bajarte todas las colecciones, presiona una tecla ...
+    pause
+    
+    ECHO.%time:~0,8% Inicio: Limpiar biblioteca mongoDB de %destino%
     start /I /MIN /WAIT batchs\import\LimpiarBibliotecas.cmd %archivoMongo%,%destino%
     ECHO.%time:~0,8% Se limpiaron las bibliotecas mongoDB de %destino%
+) ELSE (
+    ECHO Si no se limpian las colecciones de mongo, se asume que ya se removieron los datos en las colecciones que se quieren cargar.
+    ECHO Presiona una tecla si ya lo hiciste. De lo contrario, REMUEVE PARA EVITAR DUPLICADOS!, por favor xD ...
+    pause
 )
+
+REM Actualizaci¢n de SPs
+ECHO ===================================================================================
+ECHO.%time:~0,8% Inicio de actualizacion de procedimientos almacenados en %fuente%
+start /I /MIN /WAIT sp.bat %archivoSQL%,%fuente%
+ECHO.%time:~0,8% Se actualizaron los procedimientos almacenados en %fuente%
 for /F "tokens=*" %%a in (input\colecciones.txt) do (
         ECHO ===================================================================================
         ECHO.%time:~0,8% Inicio: carga de %%a

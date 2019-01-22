@@ -1,1 +1,10 @@
+Componente
+EstrategiaDetalle
+Evento
+Nivel
 OfertaPersonalizada
+OfertaPersonalizadaCuv
+Personalizacion
+ProductoComercial
+ProductoFaltanteZona
+TipoEstrategia

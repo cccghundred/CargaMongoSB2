@@ -49,8 +49,8 @@ Luego, ir a la ruta _\conn\mongo_ y abrir el archivo __conexionQAs.txt__. Se mos
 
 ![ConexionMongo](doc/imgs/ConexionMongo.png)
 
-### Configuración de datos de entrada para ofertas personalizadas
-Ingresar a la carpeta input y modificar los archivos campanias.txt y palancas.txt. En el primero, se deberán listar cada una de las campañas de ofertas personalizadas que desea cargar a MongoDB, separadas por saltos de línea.
+### Configuración de datos de entrada para ofertas personalizadas y evento (SR)
+Ingresar a la carpeta input y modificar los archivos campanias.txt, palancas.txt y colecciones.txt. En el primero, se deberán listar cada una de las campañas de ofertas personalizadas que desea cargar a MongoDB, separadas por saltos de línea.
 
 ![Campanias](doc/imgs/Campanias.png)
 
@@ -58,7 +58,18 @@ En el segundo archivo, se colocarán las diferentes de palancas de ofertas perso
 
 ![Palancas](doc/imgs/palancas.png)
 
+### Configuración de parámetros de carga 
+
+Abrir el fichero colecciones.txt, ubicado en la carpeta input, y listar las colecciones que se quieren  cargar. 
+
+![Colecciones](doc/imgs/colecciones.png)
+
+Luego, editar el archivo _init.cmd_ y modificar los parámetros que se enviarán al archivo _Load.cmd_, según como se indica en las líneas de comentario:
+
+![Colecciones](doc/imgs/editInit.png)
+
 ## Ejecución
+
 Si se realizará una carga nueva desde cero a MongoDB, primero debe crear la base de datos y las colecciones con sus respectivos índices, para esto puede utilizar los comandos que se encuentran en el script [CrearColeccionesMongoDB.js](/scripts/CrearColeccionesMongoDB.js), ubicado en la carpeta scripts. Por otro lado, si ya existen datos migrados en MongoDB y lo que se quiere es realizar una nueva carga, debe ejectur el script [RecrearBaseDatosMongoDB.js](/scripts/RecrearBaseDatosMongoDB.js). Con esto, se eliminarán cada una de las colecciones y se volverán a crear con los índices que tenían. 
 
 Posteriormente, seguir los pasos que se muestran a continuación:

@@ -31,6 +31,7 @@ HISTORIAL DE CAMBIOS | FECHA      RESPONSABLE         MOTIVO
 					 | 21/09/2018 Mijael Palomino      Actualización de precio por EstrategiaIdSicc
 					 | 16/10/2018 Mijael Palomino      Se agrega campos CodigoCatalogo, Categoria, GrupoArticulo y Linea
 					 | 23/10/2018 César Cárdenas       Adecuación para cálculo de ganancia en EstrategiaIdSicc 2003 
+					 | 04/12/2018 César Cárdenas	   Se agrega campos FactorRepeticion,CodigoTipoOferta
 ----------------------------------------------------------------------------------------------------------------------
 PRUEBA:               
 	EXEC usp_SBMicroservicios_ProductoComercial
@@ -73,6 +74,8 @@ BEGIN
 		 ,Linea varchar(200)
 		 ,PrecioCatalogo  numeric(12,2)
 		 ,PrecioValorizado  numeric(12,2)
+		 ,FactorRepeticion int
+		 ,CodigoTipoOferta varchar(6)
 	 ) 
 	 INSERT INTO #ProductoTemporal
 	 SELECT 
@@ -103,7 +106,9 @@ BEGIN
 		ga.DescripcionCorta,
 		sl.DescripcionLarga,
 		p.PrecioCatalogo,
-		p.PrecioValorizado
+		p.PrecioValorizado,
+		p.FactorRepeticion,
+		RTRIM(p.CodigoTipoOferta) AS CodigoTipoOferta
 	FROM ods.ProductoComercial p WITH (NOLOCK) 
 		INNER JOIN dbo.Marca m WITH (NOLOCK) on m.MarcaId = p.MarcaID 
 		LEFT JOIN ods.SAP_PRODUCTO sp WITH (NOLOCK) ON p.CodigoProducto = sp.CodigoSap
